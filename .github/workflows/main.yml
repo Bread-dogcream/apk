@@ -13,9 +13,6 @@ jobs:
     
     # Укажите здесь путь к папке, где лежит pubspec.yaml
     # Если проект в корне репозитория, эту секцию можно удалить
-    defaults:
-      run:
-        working-directory: ./ваша_папка_с_проектом
 
     steps:
       - name: Checkout code
