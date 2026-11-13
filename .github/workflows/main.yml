@@ -1,0 +1,53 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Позволяет запускать сборку вручную
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # Укажите здесь путь к папке, где лежит pubspec.yaml
+    # Если проект в корне репозитория, эту секцию можно удалить
+    defaults:
+      run:
+        working-directory: ./ваша_папка_с_проектом
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x.x' # Укажите вашу версию Flutter
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests (опционально)
+        run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          # Путь к APK указывается относительно корня репозитория, 
+          # даже если working-directory задан выше
+          path: ./ваша_папка_с_проектом/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
