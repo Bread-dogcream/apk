@@ -45,5 +45,5 @@ jobs:
           name: app-release
           # Путь к APK указывается относительно корня репозитория, 
           # даже если working-directory задан выше
-          path: ./ваша_папка_с_проектом/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 7
